@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tokens de cor (RGB) — modo claro */
+:root {
+  --bg: 247 246 242; /* #F7F6F2 */
+  --card: 255 255 255; /* #FFFFFF */
+  --surface: 238 235 225; /* areia suave derivada de #DDD8C4 */
+  --line: 225 221 206;
+  --ink: 28 28 30; /* #1C1C1E */
+  --muted: 92 102 106; /* #5C666A */
+  --primary: 80 128 142; /* #50808E */
+  --accent: 105 162 151; /* #69A297 */
+  color-scheme: light;
+}
+
+/* Modo escuro */
+.dark {
+  --bg: 15 20 22; /* #0F1416 */
+  --card: 24 32 35; /* #182023 */
+  --surface: 33 44 48; /* #212C30 */
+  --line: 45 59 64; /* #2D3B40 */
+  --ink: 245 245 240; /* #F5F5F0 */
+  --muted: 176 180 168;
+  --primary: 80 128 142; /* #50808E — estrutural */
+  --accent: 132 181 159; /* #84B59F — destaque luminoso */
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-bg font-sans text-ink antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+  h1,
+  h2,
+  h3 {
+    @apply tracking-tight;
+  }
+  /* Evita que conteúdo truncado (nowrap) alargue colunas de grid em telas estreitas. */
+  .grid > * {
+    min-width: 0;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-teal/60 ring-offset-2 ring-offset-bg;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-line/60 bg-card shadow-card;
+  }
+  .input {
+    @apply w-full rounded-xl border border-line bg-card px-3.5 py-2.5 text-[15px] text-ink placeholder:text-muted/70 transition focus:border-teal focus:outline-none focus:ring-2 focus:ring-teal/25 disabled:opacity-60 dark:bg-surface;
+  }
+  .input-error {
+    @apply border-red-500 ring-2 ring-red-500/20 focus:border-red-500 focus:ring-red-500/25;
+  }
+  .label {
+    @apply mb-1.5 block text-[13px] font-medium text-muted;
+  }
+  .section-title {
+    @apply px-1 pb-2 text-[13px] font-semibold uppercase tracking-wide text-muted;
+  }
+  .list-row {
+    @apply flex items-center gap-3 px-4 py-3 transition hover:bg-surface/60;
+  }
+}
+
+@layer utilities {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+}
+
+/* Impressão do documento de contrato (UC14 — visualizar documento) */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #print-area,
+  #print-area * {
+    visibility: visible;
+  }
+  #print-area {
+    position: absolute;
+    inset: 0;
+    padding: 24px;
+    background: white;
+    color: black;
+  }
+}
